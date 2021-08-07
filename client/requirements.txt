@@ -1,0 +1,15 @@
+flask
+pytest
+python-dotenv
+flask-wtf
+email_validator
+flask_sqlalchemy
+pep517
+flask-bcrypt
+flask-login
+pillow
+flask-mail
+oauthlib
+pyOpenSSL
+requests
+psycopg2-binary
