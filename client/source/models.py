@@ -1,15 +1,23 @@
-from source import db
+from source import db, login_manager
 from flask_login import UserMixin
 
+@login_manager.user_loader
+def load_user(user_id):
+    user = User.get_user_with_id(user_id)
+    print('XXXXXXXXXXXXXXXXXX', user_id)
+    if user:
+        print(user.name, flush=True)
+    return user
 
 class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(20), nullable=False, unique=True)
-    email = db.Column(db.String(120), nullable=False, unique=True)
-    profile_pic = db.Column(db.String(20), nullable=False, default="default.jpg")
+    id_pk = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(100))
+    name = db.Column(db.String(100), nullable=False, unique=True)
+    email = db.Column(db.String(100), nullable=False, unique=True)
+    profile_pic = db.Column(db.String(200), nullable=False, default="default.jpg")
 
-    def __init__(self, id_, name, email, profile_pic):
-        self.id = id_
+    def __init__(self, id, name, email, profile_pic):
+        self.id = id
         self.name = name
         self.email = email
         self.profile_pic = profile_pic

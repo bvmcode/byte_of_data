@@ -14,5 +14,5 @@ ENV PYTHONUNBUFFERED 1
 RUN pip3 install -r requirements.txt
 
 EXPOSE 5000
-CMD flask run
+#CMD flask run --cert=adhoc
 #CMD ["gunicorn", "-w", "3", "-b", ":5000", "-t", "360", "--reload", "app:app"]

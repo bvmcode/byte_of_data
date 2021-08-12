@@ -4,3 +4,4 @@
 /.pytest_cache
 /postgres
 /postgres-test
+__pycache__

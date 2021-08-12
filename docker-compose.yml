@@ -7,13 +7,41 @@ services:
     volumes:
       - ./client:/app
     ports:
-      - 5000:5000
+      - "127.0.0.1:5000:5000"
     env_file: 
       - .env
+    command: flask run --cert=adhoc
     depends_on: 
       - db
 
+  celery_worker:
+    build: ./client
+    volumes:
+      - ./client:/app
+    env_file:
+      - .env
+    command: celery -A app.celery worker --loglevel=info
+    depends_on:
+      - redis
 
+  celery_flower:
+    build: ./client
+    volumes:
+      - ./client:/app
+    env_file:
+      - .env
+    ports:
+      - "127.0.0.1:5555:5555"
+    command: celery -A app.celery flower --port=5555 --broker=redis://redis:6379/0
+    depends_on:
+      - redis
+
+
+  redis:
+    image: redis:6-alpine
+    ports:
+      - "127.0.0.1:6379:6379"
+      
   db:
     image: postgres:13
     restart: always
@@ -23,6 +51,7 @@ services:
     volumes:
         - ./postgres/data:/var/lib/postgresql/data
     restart: always
+
 
   db-test:
     image: postgres:13
@@ -34,6 +63,9 @@ services:
         - ./postgres-test/data:/var/lib/postgresql/data
     restart: always
 
+
+
+
   # nginx:
   #   build: ./nginx
   #   ports:
@@ -41,3 +73,4 @@ services:
   #   depends_on:
   #     - app
   #     - db
+

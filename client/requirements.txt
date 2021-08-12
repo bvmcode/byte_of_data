@@ -13,3 +13,6 @@ oauthlib
 pyOpenSSL
 requests
 psycopg2-binary
+redis
+celery
+flower
