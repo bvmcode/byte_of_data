@@ -1,13 +1,15 @@
 from source import db, login_manager
 from flask_login import UserMixin
 
+
 @login_manager.user_loader
 def load_user(user_id):
     user = User.get_user_with_id(user_id)
-    print('XXXXXXXXXXXXXXXXXX', user_id)
+    print("XXXXXXXXXXXXXXXXXX", user_id)
     if user:
         print(user.name, flush=True)
     return user
+
 
 class User(db.Model, UserMixin):
     id_pk = db.Column(db.Integer, primary_key=True)
